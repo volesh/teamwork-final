@@ -25,6 +25,7 @@ export const timelyService = {
 axiosService.interceptors.request.use((config) => {
   config.headers["Content-Type"] = "application/json";
   config.headers.Authorization = "Bearer " + "VgGvnfBPk-c7oeohnQz6JEAp1AveEeyxpAwdsDNqw6I";
+  console.log(config.url);
 
   return config;
 });
