@@ -5,7 +5,7 @@ const services_1 = require("../services");
 exports.timelyMiddlewares = {
     createProject: async (req, res, next) => {
         try {
-            if (!req.projectName) {
+            if (!req.body.project.name) {
                 throw new Error("Project name not found");
             }
             if (!req.clientId) {
@@ -19,7 +19,7 @@ exports.timelyMiddlewares = {
             }
             const dataFroCreate = {
                 project: {
-                    name: req.projectName,
+                    name: req.body.project.name,
                     rate_type: "project",
                     color: "67a3bc",
                     client_id: +req.clientId,

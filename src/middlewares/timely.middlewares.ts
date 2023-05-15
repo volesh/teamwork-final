@@ -5,7 +5,7 @@ import { IRequest } from "../interfaces";
 export const timelyMiddlewares = {
   createProject: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
-      if (!req.projectName) {
+      if (!req.body.project.name) {
         throw new Error("Project name not found");
       }
       if (!req.clientId) {
@@ -19,7 +19,7 @@ export const timelyMiddlewares = {
       }
       const dataFroCreate = {
         project: {
-          name: req.projectName,
+          name: req.body.project.name,
           rate_type: "project",
           color: "67a3bc",
           client_id: +req.clientId,
