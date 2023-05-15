@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "rimraf dist && tsc-watch --onSuccess \" npm run dev \"",
+    "start": "node ./dist/index.js",
+    "start:dev": "rimraf dist && tsc-watch --onSuccess \" npm run dev \"",
     "dev": "nodemon ./src/index.ts --watch ./src --onChange \" rimraf dist\" ",
     "lint": "eslint --cache --ext .js,.ts src",
     "lint-fix": "npm run lint -- --fix"

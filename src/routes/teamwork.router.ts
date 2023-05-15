@@ -9,6 +9,7 @@ teamworkRouter.post(
   timelyMiddlewares.getAccount,
   timelyMiddlewares.getClient,
   timelyMiddlewares.getCurrentUser,
+  timelyMiddlewares.createProject,
   teamworkController.createProject
 );
 
