@@ -5,7 +5,7 @@ import { teamworkMiddlewares, timelyMiddlewares } from "../middlewares";
 const teamworkRouter = express.Router();
 
 teamworkRouter.post(
-  "create-project",
+  "/create-project",
   timelyMiddlewares.getAccount,
   timelyMiddlewares.getClient,
   timelyMiddlewares.getCurrentUser,
@@ -14,7 +14,7 @@ teamworkRouter.post(
 );
 
 teamworkRouter.post(
-  "create-budget",
+  "/create-budget",
   teamworkMiddlewares.getProjectName,
   timelyMiddlewares.getAccount,
   timelyMiddlewares.getTimelyProjectByName,
