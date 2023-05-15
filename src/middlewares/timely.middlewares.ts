@@ -17,7 +17,7 @@ export const timelyMiddlewares = {
       if (!req.accountId) {
         throw new Error(`Account id not found`);
       }
-      const dataFroCreate = {
+      const dataForCreate = {
         project: {
           name: req.body.project.name,
           rate_type: "project",
@@ -26,7 +26,10 @@ export const timelyMiddlewares = {
           users: [{ user_id: +req.userId }],
         },
       };
-      await timelyService.createProject(req.accountId, dataFroCreate);
+      console.log(dataForCreate);
+
+      await timelyService.createProject(req.accountId, dataForCreate);
+      next();
     } catch (e) {
       next(e);
     }
