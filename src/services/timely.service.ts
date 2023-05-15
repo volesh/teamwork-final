@@ -8,7 +8,7 @@ export const timelyService = {
   createProject: (accountId: number, data: CreateProjectI) =>
     axiosService.post(`${timelyUrls.version}/${accountId}${timelyUrls.projects}`, data),
 
-  getAccounts: () => axiosService.get(`${timelyUrls.version}/${timelyUrls.accounts}`),
+  getAccounts: () => axiosService.get(`${timelyUrls.version}${timelyUrls.accounts}`),
 
   getProjects: (accountId: number) => axiosService.get(`${timelyUrls.version}/${accountId}${timelyUrls.projects}`),
 
@@ -25,7 +25,7 @@ export const timelyService = {
 axiosService.interceptors.request.use((config) => {
   config.headers["Content-Type"] = "application/json";
   config.headers.Authorization = "Bearer " + "VgGvnfBPk-c7oeohnQz6JEAp1AveEeyxpAwdsDNqw6I";
-  console.log(config.url);
+  console.log(config.baseURL, config.url);
 
   return config;
 });
