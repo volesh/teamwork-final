@@ -29,6 +29,6 @@ const teamwork_router_1 = require("./teamwork.router");
 const timely_router_1 = require("./timely.router");
 const apiRouter = express.Router();
 exports.apiRouter = apiRouter;
-apiRouter.use("teamwork", teamwork_router_1.teamworkRouter);
-apiRouter.use("timely", timely_router_1.timelyRouter);
+apiRouter.use("/teamwork", teamwork_router_1.teamworkRouter);
+apiRouter.use("/timely", timely_router_1.timelyRouter);
 //# sourceMappingURL=api.router.js.map
