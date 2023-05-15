@@ -33,6 +33,7 @@ exports.timelyMiddlewares = {
         }
     },
     getAccount: async (req, res, next) => {
+        console.log("Working");
         try {
             const { data } = await services_1.timelyService.getAccounts();
             req.accountId = data[0].id;
