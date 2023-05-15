@@ -140,6 +140,7 @@ exports.timelyMiddlewares = {
             }
             const { data } = await services_1.timelyService.getCurrentUser(req.accountId);
             req.userId = data.id;
+            next();
         }
         catch (e) {
             next(e);
