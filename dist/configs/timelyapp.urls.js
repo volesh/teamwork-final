@@ -4,7 +4,7 @@ exports.timelyUrls = void 0;
 exports.timelyUrls = {
     version: "/1.1",
     accounts: "/accounts",
-    projects: "/prjects",
+    projects: "/projects",
     clients: "/clients",
     currentUser: "/users/current",
 };

@@ -1,7 +1,7 @@
 export const timelyUrls = {
   version: "/1.1",
   accounts: "/accounts",
-  projects: "/prjects",
+  projects: "/projects",
   clients: "/clients",
   currentUser: "/users/current",
 };
