@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.timelyMiddlewares = void 0;
 const services_1 = require("../services");
-const fs_1 = require("fs");
 exports.timelyMiddlewares = {
     createProject: async (req, res, next) => {
         try {
@@ -152,7 +151,7 @@ exports.timelyMiddlewares = {
         try {
             const code = req.query.code;
             const { data } = await services_1.timelyService.getTokens(code);
-            await fs_1.promises.writeFile("./src/tokens.json", JSON.stringify(data));
+            // await fs.writeFile("./src/tokens.json", JSON.stringify(data));
             console.log(data);
             next();
         }

@@ -44,7 +44,6 @@ export const timelyService = {
 
 const getTokens = async () => {
   const data = await fs.readFile("./src/tokens.json");
-  console.log("Data", data.toString());
 
   return JSON.parse(data.toString());
 };
@@ -53,6 +52,7 @@ axiosService.interceptors.request.use(async (config) => {
   const tokens = await getTokens();
   config.headers["Content-Type"] = "application/json";
   config.headers.Authorization = "Bearer " + tokens.accessToken;
+  console.log(config.baseURL, config.url);
 
   return config;
 });

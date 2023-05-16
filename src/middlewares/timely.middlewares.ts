@@ -1,7 +1,6 @@
 import { NextFunction, Response } from "express";
 import { timelyService } from "../services";
 import { IRequest } from "../interfaces";
-import { promises as fs } from "fs";
 
 export const timelyMiddlewares = {
   createProject: async (req: IRequest, res: Response, next: NextFunction) => {
@@ -155,7 +154,7 @@ export const timelyMiddlewares = {
     try {
       const code = req.query.code as string;
       const { data } = await timelyService.getTokens(code);
-      await fs.writeFile("./src/tokens.json", JSON.stringify(data));
+      // await fs.writeFile("./src/tokens.json", JSON.stringify(data));
       console.log(data);
       next();
     } catch (e) {
