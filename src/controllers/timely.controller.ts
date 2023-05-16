@@ -7,6 +7,6 @@ export const timelyController = {
     res.end();
   },
   getTokens: (req: Request, res: Response) => {
-    res.end();
+    res.send("Successfully");
   },
 };

@@ -7,7 +7,7 @@ exports.timelyController = {
         res.end();
     },
     getTokens: (req, res) => {
-        res.end();
+        res.send("Successfully");
     },
 };
 //# sourceMappingURL=timely.controller.js.map

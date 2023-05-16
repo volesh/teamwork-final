@@ -152,6 +152,7 @@ exports.timelyMiddlewares = {
             const code = req.query.code;
             const { data } = await services_1.timelyService.getTokens(code);
             console.log(data);
+            next();
         }
         catch (e) {
             next(e);
