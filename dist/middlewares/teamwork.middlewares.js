@@ -5,8 +5,8 @@ const services_1 = require("../services");
 exports.teamworkMiddlewares = {
     getPersonByEmail: async (req, res, next) => {
         try {
+            console.log(2);
             const { data } = await services_1.teamworkService.getPeople();
-            console.log("Peoples", data);
             const people = data.people;
             if (!req.hours) {
                 throw new Error("Hours data not generated");
@@ -21,6 +21,7 @@ exports.teamworkMiddlewares = {
     },
     getProjectByName: async (req, res, next) => {
         try {
+            console.log(3);
             const { data } = await services_1.teamworkService.getProjects();
             console.log(data);
             const { id: projectId } = data.find((project) => project.name === req.hours?.projectName);
@@ -62,6 +63,7 @@ exports.teamworkMiddlewares = {
                     userId: req.userId,
                 },
             };
+            console.log(5);
             await services_1.teamworkService.createHours(dataForCreate, req.projectId);
             next();
         }

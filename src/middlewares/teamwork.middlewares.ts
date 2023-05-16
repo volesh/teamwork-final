@@ -5,8 +5,9 @@ import { IRequest } from "../interfaces";
 export const teamworkMiddlewares = {
   getPersonByEmail: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
+      console.log(2);
+
       const { data } = await teamworkService.getPeople();
-      console.log("Peoples", data);
 
       const people = data.people;
       if (!req.hours) {
@@ -24,6 +25,8 @@ export const teamworkMiddlewares = {
 
   getProjectByName: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
+      console.log(3);
+
       const { data } = await teamworkService.getProjects();
       console.log(data);
 
@@ -66,6 +69,8 @@ export const teamworkMiddlewares = {
           userId: req.userId,
         },
       };
+      console.log(5);
+
       await teamworkService.createHours(dataForCreate, req.projectId);
       next();
     } catch (e) {
