@@ -6,6 +6,8 @@ export const teamworkMiddlewares = {
   getPersonByEmail: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
       const { data } = await teamworkService.getPeople();
+      console.log("Peoples", data);
+
       const people = data.people;
       if (!req.hours) {
         throw new Error("Hours data not generated");
