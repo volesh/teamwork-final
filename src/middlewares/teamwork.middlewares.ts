@@ -23,8 +23,7 @@ export const teamworkMiddlewares = {
   getProjectByName: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
       const { data } = await teamworkService.getProjects();
-      const { projects } = data;
-      const { id: projectId } = projects.find((project: { name: string; id: number }) => project.name === req.hours?.projectName);
+      const { id: projectId } = data.find((project: { name: string; id: number }) => project.name === req.hours?.projectName);
       req.projectId = projectId;
       next();
     } catch (e) {
