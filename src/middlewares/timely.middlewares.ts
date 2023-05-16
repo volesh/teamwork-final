@@ -26,8 +26,6 @@ export const timelyMiddlewares = {
           users: [{ user_id: +req.userId }],
         },
       };
-      console.log(dataForCreate);
-
       await timelyService.createProject(req.accountId, dataForCreate);
       next();
     } catch (e) {
