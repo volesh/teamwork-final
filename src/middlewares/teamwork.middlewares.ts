@@ -30,7 +30,9 @@ export const teamworkMiddlewares = {
       const { data } = await teamworkService.getProjects();
       console.log(data);
 
-      const { id: projectId } = data.find((project: { name: string; id: number }) => project.name === req.hours?.projectName);
+      const { id: projectId } = data.projects.find(
+        (project: { name: string; id: number }) => project.name === req.hours?.projectName
+      );
       req.projectId = projectId;
       next();
     } catch (e) {
