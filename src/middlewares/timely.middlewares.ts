@@ -52,6 +52,8 @@ export const timelyMiddlewares = {
       }
       const path = req.body.payload.entity_path;
       const { data: createdHours } = await timelyService.getCreatedHours(path, accountId);
+      console.log(createdHours);
+
       if (!createdHours) {
         throw new Error("Created hours not found");
       }
