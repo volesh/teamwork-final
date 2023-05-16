@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.timelyService = void 0;
 const axios_1 = __importDefault(require("axios"));
+const fs_1 = require("fs");
 const configs_1 = require("../configs");
 const axiosService = axios_1.default.create({ baseURL: configs_1.envsConfig.timelyBaseUrl });
 exports.timelyService = {
@@ -24,11 +25,43 @@ exports.timelyService = {
             grant_type: "authorization_code",
         },
     }),
+    refreshToken: (token) => axiosService.post(`${configs_1.timelyUrls.version}${configs_1.timelyUrls.tokens}`, {
+        grant_type: "refresh_token",
+        refresh_token: token,
+        client_id: configs_1.envsConfig.timelyClientId,
+        client_secret: configs_1.envsConfig.timelyClientSecret,
+    }),
 };
-axiosService.interceptors.request.use((config) => {
+const getTokens = async () => {
+    const data = await fs_1.promises.readFile("./src/tokens.json");
+    console.log("Data", data.toString());
+    return JSON.parse(data.toString());
+};
+axiosService.interceptors.request.use(async (config) => {
+    const tokens = await getTokens();
     config.headers["Content-Type"] = "application/json";
-    config.headers.Authorization = "Bearer " + "VgGvnfBPk-c7oeohnQz6JEAp1AveEeyxpAwdsDNqw6I";
-    console.log(config.baseURL, config.url);
+    config.headers.Authorization = "Bearer " + tokens.accessToken;
     return config;
+});
+axios_1.default.interceptors.response.use((response) => {
+    return response;
+}, async (error) => {
+    const originalRequest = error.config;
+    if (error.response.status === 401 && !originalRequest._retry) {
+        originalRequest._retry = true;
+        try {
+            const tokens = await getTokens();
+            const { data } = await exports.timelyService.refreshToken(tokens.refresh_token);
+            await fs_1.promises.writeFile("./src/tokens.json", JSON.stringify(data));
+            // Поновлення аксес токену і повторний запит з новим токеном
+            originalRequest.headers.Authorization = `Bearer ${data.access_token}`;
+            return (0, axios_1.default)(originalRequest);
+        }
+        catch (refreshError) {
+            console.error(refreshError);
+            return Promise.reject(refreshError);
+        }
+    }
+    return Promise.reject(error);
 });
 //# sourceMappingURL=timely.service.js.map

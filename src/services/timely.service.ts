@@ -1,4 +1,5 @@
 import axios from "axios";
+import { promises as fs } from "fs";
 import { envsConfig, timelyUrls } from "../configs";
 import { CreateProjectI } from "../interfaces";
 
@@ -31,12 +32,56 @@ export const timelyService = {
         grant_type: "authorization_code",
       },
     }),
+
+  refreshToken: (token: string) =>
+    axiosService.post(`${timelyUrls.version}${timelyUrls.tokens}`, {
+      grant_type: "refresh_token",
+      refresh_token: token,
+      client_id: envsConfig.timelyClientId,
+      client_secret: envsConfig.timelyClientSecret,
+    }),
 };
 
-axiosService.interceptors.request.use((config) => {
+const getTokens = async () => {
+  const data = await fs.readFile("./src/tokens.json");
+  console.log("Data", data.toString());
+
+  return JSON.parse(data.toString());
+};
+
+axiosService.interceptors.request.use(async (config) => {
+  const tokens = await getTokens();
   config.headers["Content-Type"] = "application/json";
-  config.headers.Authorization = "Bearer " + "VgGvnfBPk-c7oeohnQz6JEAp1AveEeyxpAwdsDNqw6I";
-  console.log(config.baseURL, config.url);
+  config.headers.Authorization = "Bearer " + tokens.accessToken;
 
   return config;
 });
+
+axios.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      try {
+        const tokens = await getTokens();
+        const { data } = await timelyService.refreshToken(tokens.refresh_token);
+
+        await fs.writeFile("./src/tokens.json", JSON.stringify(data));
+
+        // Поновлення аксес токену і повторний запит з новим токеном
+        originalRequest.headers.Authorization = `Bearer ${data.access_token}`;
+        return axios(originalRequest);
+      } catch (refreshError) {
+        console.error(refreshError);
+        return Promise.reject(refreshError);
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
