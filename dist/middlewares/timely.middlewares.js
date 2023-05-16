@@ -51,9 +51,7 @@ exports.timelyMiddlewares = {
                 throw new Error("Missing accountId");
             }
             const path = req.body.payload.entity_path;
-            console.log(1);
             const { data: createdHours } = await services_1.timelyService.getCreatedHours(path, accountId);
-            console.log(createdHours);
             if (!createdHours) {
                 throw new Error("Created hours not found");
             }
@@ -87,7 +85,6 @@ exports.timelyMiddlewares = {
                 throw new Error("Project name not found");
             }
             const { data } = await services_1.timelyService.getProjects(req.accountId);
-            console.log("Projects", data);
             const { id: projectId } = data.find((project) => project.name === req.projectName);
             req.projectId = projectId;
             next();
@@ -145,6 +142,16 @@ exports.timelyMiddlewares = {
             const { data } = await services_1.timelyService.getCurrentUser(req.accountId);
             req.userId = data.id;
             next();
+        }
+        catch (e) {
+            next(e);
+        }
+    },
+    getTokens: async (req, res, next) => {
+        try {
+            const code = req.query.code;
+            const { data } = await services_1.timelyService.getTokens(code);
+            console.log(data);
         }
         catch (e) {
             next(e);

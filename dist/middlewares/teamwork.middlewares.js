@@ -21,9 +21,7 @@ exports.teamworkMiddlewares = {
     },
     getProjectByName: async (req, res, next) => {
         try {
-            console.log(3);
             const { data } = await services_1.teamworkService.getProjects();
-            console.log(data);
             const { id: projectId } = data.projects.find((project) => project.name === req.hours?.projectName);
             req.projectId = projectId;
             next();
@@ -63,7 +61,6 @@ exports.teamworkMiddlewares = {
                     userId: req.userId,
                 },
             };
-            console.log(5);
             await services_1.teamworkService.createHours(dataForCreate, req.projectId);
             next();
         }

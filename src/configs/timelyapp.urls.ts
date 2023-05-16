@@ -4,4 +4,5 @@ export const timelyUrls = {
   projects: "/projects",
   clients: "/clients",
   currentUser: "/users/current",
+  tokens: "/oauth/token",
 };

@@ -14,6 +14,6 @@ timelyRouter.post(
   timelyController.addHours
 );
 
-timelyRouter.get("/get-tokens", timelyController.getTokens);
+timelyRouter.get("/get-tokens", timelyMiddlewares.getTokens, timelyController.getTokens);
 
 export { timelyRouter };

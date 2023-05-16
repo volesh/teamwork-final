@@ -20,6 +20,17 @@ export const timelyService = {
 
   setProjectBudget: (accountId: number, projectId: number, data: { budget: number; budget_type: string }) =>
     axiosService.put(`${timelyUrls.version}/${accountId}${timelyUrls.projects}/${projectId}`, data),
+
+  getTokens: (code: string) =>
+    axiosService.post(`${timelyUrls.version}${timelyUrls.tokens}`, null, {
+      params: {
+        redirect_uri: envsConfig.timelyRedirectUrl,
+        code,
+        client_id: envsConfig.timelyClientId,
+        client_secret: envsConfig.timelyClientSecret,
+        grant_type: "authorization_code",
+      },
+    }),
 };
 
 axiosService.interceptors.request.use((config) => {

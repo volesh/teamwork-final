@@ -1,1 +1,1 @@
-{"version":3,"file":"timelyapp.urls.js","sourceRoot":"","sources":["../../src/configs/timelyapp.urls.ts"],"names":[],"mappings":";;;AAAa,QAAA,UAAU,GAAG;IACxB,OAAO,EAAE,MAAM;IACf,QAAQ,EAAE,WAAW;IACrB,QAAQ,EAAE,WAAW;IACrB,OAAO,EAAE,UAAU;IACnB,WAAW,EAAE,gBAAgB;CAC9B,CAAC"}
+{"version":3,"file":"timelyapp.urls.js","sourceRoot":"","sources":["../../src/configs/timelyapp.urls.ts"],"names":[],"mappings":";;;AAAa,QAAA,UAAU,GAAG;IACxB,OAAO,EAAE,MAAM;IACf,QAAQ,EAAE,WAAW;IACrB,QAAQ,EAAE,WAAW;IACrB,OAAO,EAAE,UAAU;IACnB,WAAW,EAAE,gBAAgB;IAC7B,MAAM,EAAE,cAAc;CACvB,CAAC"}

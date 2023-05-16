@@ -30,5 +30,5 @@ const middlewares_1 = require("../middlewares");
 const timelyRouter = express.Router();
 exports.timelyRouter = timelyRouter;
 timelyRouter.post("/hours", middlewares_1.timelyMiddlewares.getAccount, middlewares_1.timelyMiddlewares.generateHoursData, middlewares_1.teamworkMiddlewares.getPersonByEmail, middlewares_1.teamworkMiddlewares.getProjectByName, middlewares_1.teamworkMiddlewares.createHours, controllers_1.timelyController.addHours);
-timelyRouter.get("/get-tokens", controllers_1.timelyController.getTokens);
+timelyRouter.get("/get-tokens", middlewares_1.timelyMiddlewares.getTokens, controllers_1.timelyController.getTokens);
 //# sourceMappingURL=timely.router.js.map
