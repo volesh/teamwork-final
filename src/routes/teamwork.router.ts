@@ -22,7 +22,7 @@ teamworkRouter.post(
   teamworkController.createBudget
 );
 
-teamworkRouter.patch(
+teamworkRouter.post(
   "/update-budget",
   teamworkMiddlewares.getProjectName,
   timelyMiddlewares.getAccount,
