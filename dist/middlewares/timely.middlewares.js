@@ -113,6 +113,7 @@ exports.timelyMiddlewares = {
                 throw new Error("Project name not found");
             }
             const { data } = await services_1.timelyService.getProjects(req.accountId);
+            console.log("Projects", data);
             const { id: projectId } = data.find((project) => project.name === req.projectName);
             req.projectId = projectId;
             next();
