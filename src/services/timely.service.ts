@@ -53,7 +53,7 @@ const getTokens = async () => {
 
 axiosService.interceptors.request.use(async (config) => {
   const tokens = await getTokens();
-  console.log(tokens);
+  console.log(config.baseURL, config.url);
 
   config.headers["Content-Type"] = "application/json";
   config.headers.Authorization = "Bearer " + tokens.access_token;

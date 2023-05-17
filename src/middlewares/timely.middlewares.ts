@@ -53,6 +53,8 @@ export const timelyMiddlewares = {
         body.budget_type = "M";
         body.budget = req.body.budget.capacity / 100;
       }
+      console.log("Bdy", body);
+
       await timelyService.updateProjectBudget(req.accountId, req.projectId, body);
       next();
     } catch (e) {
@@ -115,7 +117,6 @@ export const timelyMiddlewares = {
         throw new Error("Project name not found");
       }
       const { data } = await timelyService.getProjects(req.accountId);
-      console.log("Projects", data);
 
       const { id: projectId } = data.find((project: { name: string; id: number }) => project.name === req.projectName);
       req.projectId = projectId;

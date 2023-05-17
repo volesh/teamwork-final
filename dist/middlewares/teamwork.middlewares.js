@@ -5,7 +5,6 @@ const services_1 = require("../services");
 exports.teamworkMiddlewares = {
     getPersonByEmail: async (req, res, next) => {
         try {
-            console.log(2);
             const { data } = await services_1.teamworkService.getPeople();
             const people = data.people;
             if (!req.hours) {

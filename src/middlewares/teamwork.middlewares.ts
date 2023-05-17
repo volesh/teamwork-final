@@ -5,8 +5,6 @@ import { IRequest } from "../interfaces";
 export const teamworkMiddlewares = {
   getPersonByEmail: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
-      console.log(2);
-
       const { data } = await teamworkService.getPeople();
 
       const people = data.people;
