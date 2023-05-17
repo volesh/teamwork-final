@@ -40,7 +40,7 @@ axiosService.interceptors.request.use(async (config) => {
     const tokens = await getTokens();
     console.log(tokens);
     config.headers["Content-Type"] = "application/json";
-    config.headers.Authorization = "Bearer " + tokens.accessToken;
+    config.headers.Authorization = "Bearer " + tokens.access_token;
     return config;
 });
 axios_1.default.interceptors.response.use((response) => {
