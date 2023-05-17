@@ -23,7 +23,7 @@ export const timelyService = {
     axiosService.put(`${timelyUrls.version}/${accountId}${timelyUrls.projects}/${projectId}`, data),
 
   updateProjectBudget: (accountId: number, projectId: number, data: any) =>
-    axiosService.patch(`${timelyUrls.version}/${accountId}${timelyUrls.projects}/${projectId}`),
+    axiosService.patch(`${timelyUrls.version}/${accountId}${timelyUrls.projects}/${projectId}`, data),
 
   getTokens: (code: string) =>
     axiosService.post(`${timelyUrls.version}${timelyUrls.tokens}`, null, {
