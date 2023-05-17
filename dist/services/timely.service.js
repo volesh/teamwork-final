@@ -16,6 +16,7 @@ exports.timelyService = {
     getClients: (accountId) => axiosService.get(`${configs_1.timelyUrls.version}/${accountId}${configs_1.timelyUrls.clients}`),
     getCurrentUser: (accountId) => axiosService.get(`${configs_1.timelyUrls.version}/${accountId}${configs_1.timelyUrls.currentUser}`),
     setProjectBudget: (accountId, projectId, data) => axiosService.put(`${configs_1.timelyUrls.version}/${accountId}${configs_1.timelyUrls.projects}/${projectId}`, data),
+    updateProjectBudget: (accountId, projectId, data) => axiosService.patch(`${configs_1.timelyUrls.version}/${accountId}${configs_1.timelyUrls.projects}/${projectId}`),
     getTokens: (code) => axiosService.post(`${configs_1.timelyUrls.version}${configs_1.timelyUrls.tokens}`, null, {
         params: {
             redirect_uri: configs_1.envsConfig.timelyRedirectUrl,

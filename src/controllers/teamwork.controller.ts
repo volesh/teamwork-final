@@ -6,7 +6,14 @@ export const teamworkController = {
 
     res.end();
   },
+
   createBudget: (req: Request, res: Response) => {
+    console.log("Budget created successfully");
+
+    res.end();
+  },
+
+  updateBudget: (req: Request, res: Response) => {
     console.log("Budget update successfully");
 
     res.end();

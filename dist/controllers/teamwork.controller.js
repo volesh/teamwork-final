@@ -7,6 +7,10 @@ exports.teamworkController = {
         res.end();
     },
     createBudget: (req, res) => {
+        console.log("Budget created successfully");
+        res.end();
+    },
+    updateBudget: (req, res) => {
         console.log("Budget update successfully");
         res.end();
     },

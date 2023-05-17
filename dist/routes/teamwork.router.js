@@ -31,4 +31,5 @@ const teamworkRouter = express.Router();
 exports.teamworkRouter = teamworkRouter;
 teamworkRouter.post("/create-project", middlewares_1.timelyMiddlewares.getAccount, middlewares_1.timelyMiddlewares.getClient, middlewares_1.timelyMiddlewares.getCurrentUser, middlewares_1.timelyMiddlewares.createProject, controllers_1.teamworkController.createProject);
 teamworkRouter.post("/create-budget", middlewares_1.teamworkMiddlewares.getProjectName, middlewares_1.timelyMiddlewares.getAccount, middlewares_1.timelyMiddlewares.getTimelyProjectByName, middlewares_1.timelyMiddlewares.setProjectBudget, controllers_1.teamworkController.createBudget);
+teamworkRouter.patch("/update-budget", middlewares_1.teamworkMiddlewares.getProjectName, middlewares_1.timelyMiddlewares.getAccount, middlewares_1.timelyMiddlewares.getTimelyProjectByName, middlewares_1.timelyMiddlewares.updateProjectBudget, controllers_1.teamworkController.updateBudget);
 //# sourceMappingURL=teamwork.router.js.map

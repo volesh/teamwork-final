@@ -34,6 +34,32 @@ export const timelyMiddlewares = {
     }
   },
 
+  updateProjectBudget: async (req: IRequest, res: Response, next: NextFunction) => {
+    try {
+      if (!req.accountId) {
+        throw new Error("Account id not found");
+      }
+      if (!req.projectId) {
+        throw new Error("Project id not found");
+      }
+      const body = {
+        budget: 0,
+        budget_type: "",
+      };
+      if (req.body.budget.type === "TIME") {
+        body.budget_type = "H";
+        body.budget = req.body.budget.capacity / 60;
+      } else {
+        body.budget_type = "M";
+        body.budget = req.body.budget.capacity / 100;
+      }
+      await timelyService.updateProjectBudget(req.accountId, req.projectId, body);
+      next();
+    } catch (e) {
+      next(e);
+    }
+  },
+
   getAccount: async (req: IRequest, res: Response, next: NextFunction) => {
     console.log("Working");
     try {
