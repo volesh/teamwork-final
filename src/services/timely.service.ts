@@ -52,8 +52,6 @@ axiosService.interceptors.request.use(async (config) => {
   const tokens = await getTokens();
   config.headers["Content-Type"] = "application/json";
   config.headers.Authorization = "Bearer " + tokens.accessToken;
-  console.log(config.baseURL, config.url);
-
   return config;
 });
 
@@ -73,7 +71,6 @@ axios.interceptors.response.use(
 
         await fs.writeFile("./src/tokens.json", JSON.stringify(data));
 
-        // Поновлення аксес токену і повторний запит з новим токеном
         originalRequest.headers.Authorization = `Bearer ${data.access_token}`;
         return axios(originalRequest);
       } catch (refreshError) {

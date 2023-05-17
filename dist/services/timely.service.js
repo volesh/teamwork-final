@@ -40,7 +40,6 @@ axiosService.interceptors.request.use(async (config) => {
     const tokens = await getTokens();
     config.headers["Content-Type"] = "application/json";
     config.headers.Authorization = "Bearer " + tokens.accessToken;
-    console.log(config.baseURL, config.url);
     return config;
 });
 axios_1.default.interceptors.response.use((response) => {
@@ -53,7 +52,6 @@ axios_1.default.interceptors.response.use((response) => {
             const tokens = await getTokens();
             const { data } = await exports.timelyService.refreshToken(tokens.refresh_token);
             await fs_1.promises.writeFile("./src/tokens.json", JSON.stringify(data));
-            // Поновлення аксес токену і повторний запит з новим токеном
             originalRequest.headers.Authorization = `Bearer ${data.access_token}`;
             return (0, axios_1.default)(originalRequest);
         }
