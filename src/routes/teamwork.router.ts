@@ -8,7 +8,8 @@ teamworkRouter.post(
   "/create-project",
   timelyMiddlewares.getAccount,
   timelyMiddlewares.getClient,
-  timelyMiddlewares.getCurrentUser,
+  teamworkMiddlewares.getPeopleEmailsByProject,
+  timelyMiddlewares.getUsersArr,
   timelyMiddlewares.createProject,
   teamworkController.createProject
 );

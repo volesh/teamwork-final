@@ -17,7 +17,7 @@ export const timelyService = {
 
   getClients: (accountId: number) => axiosService.get(`${timelyUrls.version}/${accountId}${timelyUrls.clients}`),
 
-  getCurrentUser: (accountId: number) => axiosService.get(`${timelyUrls.version}/${accountId}${timelyUrls.currentUser}`),
+  getPeopleByAccountId: (accountId: number) => axiosService.get(`${timelyUrls.version}/${accountId}${timelyUrls.users}`),
 
   setProjectBudget: (accountId: number, projectId: number, data: { budget: number; budget_type: string }) =>
     axiosService.put(`${timelyUrls.version}/${accountId}${timelyUrls.projects}/${projectId}`, data),

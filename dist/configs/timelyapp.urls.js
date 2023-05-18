@@ -8,5 +8,6 @@ exports.timelyUrls = {
     clients: "/clients",
     currentUser: "/users/current",
     tokens: "/oauth/token",
+    users: "/users",
 };
 //# sourceMappingURL=timelyapp.urls.js.map

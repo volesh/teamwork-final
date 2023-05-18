@@ -5,4 +5,5 @@ export const timelyUrls = {
   clients: "/clients",
   currentUser: "/users/current",
   tokens: "/oauth/token",
+  users: "/users",
 };

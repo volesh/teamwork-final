@@ -18,6 +18,18 @@ exports.teamworkMiddlewares = {
             next(e);
         }
     },
+    getPeopleEmailsByProject: async (req, res, next) => {
+        try {
+            const { data } = await services_1.teamworkService.getPeopleByProject(+req.body.project.id);
+            const people = data.map((person) => {
+                return person["email-address"];
+            });
+            req.people = people;
+        }
+        catch (e) {
+            next(e);
+        }
+    },
     getProjectByName: async (req, res, next) => {
         try {
             const { data } = await services_1.teamworkService.getProjects();
@@ -32,7 +44,6 @@ exports.teamworkMiddlewares = {
     getProjectName: async (req, res, next) => {
         try {
             const { data } = await services_1.teamworkService.getProjectById(req.body.budget.projectId);
-            console.log(data);
             req.projectName = data.project.name;
             next();
         }

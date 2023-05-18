@@ -12,6 +12,8 @@ export interface IRequest extends Request {
   };
   projectName?: string;
   userId?: number;
+  usersForCreate?: { user_id: number }[];
   projectId?: number;
   clientId?: string;
+  people?: string[];
 }

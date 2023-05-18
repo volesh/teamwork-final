@@ -6,6 +6,7 @@ const axiosService = axios.create({ baseURL: envsConfig.teamworkBaseUrl });
 
 export const teamworkService = {
   getPeople: () => axiosService.get(`${teamworkUrls.people}.json`),
+  getPeopleByProject: (projectId: number) => axiosService.get(`${teamworkUrls.projects}/${projectId}${teamworkUrls.people}.json`),
   getProjectById: (id: number) => axiosService.get(`${teamworkUrls.projects}/${id}.json`),
   getProjects: () => axiosService.get(`${teamworkUrls.projects}.json`),
   createHours: (data: CreateHoursI, projectId: number) =>

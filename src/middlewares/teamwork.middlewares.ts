@@ -21,6 +21,18 @@ export const teamworkMiddlewares = {
     }
   },
 
+  getPeopleEmailsByProject: async (req: IRequest, res: Response, next: NextFunction) => {
+    try {
+      const { data } = await teamworkService.getPeopleByProject(+req.body.project.id);
+      const people = data.map((person: { ["email-address"]: string }) => {
+        return person["email-address"];
+      });
+      req.people = people;
+    } catch (e) {
+      next(e);
+    }
+  },
+
   getProjectByName: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
       const { data } = await teamworkService.getProjects();
@@ -38,7 +50,6 @@ export const teamworkMiddlewares = {
   getProjectName: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
       const { data } = await teamworkService.getProjectById(req.body.budget.projectId);
-      console.log(data);
 
       req.projectName = data.project.name;
       next();

@@ -18,13 +18,16 @@ export const timelyMiddlewares = {
       if (!req.accountId) {
         throw new Error(`Account id not found`);
       }
+      if (!req.usersForCreate) {
+        throw new Error(`Users id not found`);
+      }
       const dataForCreate = {
         project: {
           name: req.body.project.name,
           rate_type: "project",
           color: "67a3bc",
           client_id: +req.clientId,
-          users: [{ user_id: +req.userId }],
+          users: req.usersForCreate,
         },
       };
       await timelyService.createProject(req.accountId, dataForCreate);
@@ -166,13 +169,18 @@ export const timelyMiddlewares = {
     }
   },
 
-  getCurrentUser: async (req: IRequest, res: Response, next: NextFunction) => {
+  getUsersArr: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
       if (!req.accountId) {
         throw new Error("Account Id not found");
       }
-      const { data } = await timelyService.getCurrentUser(req.accountId);
-      req.userId = data.id;
+      const { data } = await timelyService.getPeopleByAccountId(req.accountId);
+      const usersForCreate = data.map((user: { id: number }) => {
+        if (user.id) {
+          return { user_id: +user.id };
+        }
+      });
+      req.usersForCreate = usersForCreate;
       next();
     } catch (e) {
       next(e);
