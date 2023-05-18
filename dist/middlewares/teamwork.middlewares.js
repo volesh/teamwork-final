@@ -22,7 +22,7 @@ exports.teamworkMiddlewares = {
         try {
             const { data } = await services_1.teamworkService.getPeopleByProject(+req.body.project.id);
             console.log("People", data);
-            const people = data.map((person) => {
+            const people = data.people.map((person) => {
                 return person["email-address"];
             });
             console.log(people);

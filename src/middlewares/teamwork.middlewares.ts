@@ -26,7 +26,7 @@ export const teamworkMiddlewares = {
       const { data } = await teamworkService.getPeopleByProject(+req.body.project.id);
       console.log("People", data);
 
-      const people = data.map((person: { ["email-address"]: string }) => {
+      const people = data.people.map((person: { ["email-address"]: string }) => {
         return person["email-address"];
       });
       console.log(people);
