@@ -12,9 +12,6 @@ exports.timelyMiddlewares = {
             if (!req.clientId) {
                 throw new Error("Client id not found");
             }
-            if (!req.userId) {
-                throw new Error(`User id not found`);
-            }
             if (!req.accountId) {
                 throw new Error(`Account id not found`);
             }

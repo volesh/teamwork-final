@@ -29,7 +29,7 @@ export const teamworkMiddlewares = {
       const people = data.people.map((person: { ["email-address"]: string }) => {
         return person["email-address"];
       });
-      console.log(people);
+      console.log("Data", people);
 
       req.people = people;
       next();
