@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.timelyService = void 0;
+exports.getTokens = exports.timelyService = void 0;
 const axios_1 = __importDefault(require("axios"));
 const fs_1 = require("fs");
 const configs_1 = require("../configs");
@@ -37,8 +37,9 @@ const getTokens = async () => {
     const data = await fs_1.promises.readFile("./src/tokens.json");
     return JSON.parse(data.toString());
 };
+exports.getTokens = getTokens;
 axiosService.interceptors.request.use(async (config) => {
-    const tokens = await getTokens();
+    const tokens = await (0, exports.getTokens)();
     config.headers["Content-Type"] = "application/json";
     config.headers.Authorization = "Bearer " + tokens.access_token;
     return config;
@@ -50,7 +51,7 @@ axios_1.default.interceptors.response.use((response) => {
     if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
         try {
-            const tokens = await getTokens();
+            const tokens = await (0, exports.getTokens)();
             const { data } = await exports.timelyService.refreshToken(tokens.refresh_token);
             await fs_1.promises.writeFile("./src/tokens.json", JSON.stringify(data));
             originalRequest.headers.Authorization = `Bearer ${data.access_token}`;

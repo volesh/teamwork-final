@@ -2,6 +2,7 @@ import express, { NextFunction, Response } from "express";
 import { envsConfig } from "./configs";
 import { apiRouter } from "./routes/api.router";
 import { IRequest } from "./interfaces";
+import { cronRunner } from "./crones";
 
 const app = express();
 
@@ -22,4 +23,5 @@ app.use((err: any, req: IRequest, res: Response, next: NextFunction) => {
 
 app.listen(envsConfig.port, async () => {
   console.log(`Port listen: ${envsConfig.port}`);
+  cronRunner();
 });

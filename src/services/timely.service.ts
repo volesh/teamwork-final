@@ -45,7 +45,7 @@ export const timelyService = {
     }),
 };
 
-const getTokens = async () => {
+export const getTokens = async () => {
   const data = await fs.readFile("./src/tokens.json");
 
   return JSON.parse(data.toString());
