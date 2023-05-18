@@ -28,6 +28,7 @@ export const teamworkMiddlewares = {
         return person["email-address"];
       });
       req.people = people;
+      next();
     } catch (e) {
       next(e);
     }
