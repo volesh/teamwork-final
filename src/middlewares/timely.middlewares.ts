@@ -175,8 +175,8 @@ export const timelyMiddlewares = {
         throw new Error("Account Id not found");
       }
       const { data } = await timelyService.getPeopleByAccountId(req.accountId);
-      const usersForCreate = data.map((user: { id: number }) => {
-        if (user.id) {
+      const usersForCreate = data.map((user: { id: number; email: string }) => {
+        if (user.id && req.people?.includes(user.email)) {
           return { user_id: +user.id };
         }
       });

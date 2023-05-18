@@ -173,7 +173,7 @@ exports.timelyMiddlewares = {
             }
             const { data } = await services_1.timelyService.getPeopleByAccountId(req.accountId);
             const usersForCreate = data.map((user) => {
-                if (user.id) {
+                if (user.id && req.people?.includes(user.email)) {
                     return { user_id: +user.id };
                 }
             });
