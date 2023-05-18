@@ -32,6 +32,7 @@ exports.teamworkMiddlewares = {
     getProjectName: async (req, res, next) => {
         try {
             const { data } = await services_1.teamworkService.getProjectById(req.body.budget.projectId);
+            console.log(data);
             req.projectName = data.project.name;
             next();
         }

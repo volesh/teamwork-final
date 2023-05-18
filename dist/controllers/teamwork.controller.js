@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.teamworkController = void 0;
 exports.teamworkController = {
     createProject: (req, res) => {
-        console.log(req.body);
         console.log("Project created successfully");
         res.end();
     },
