@@ -15,7 +15,6 @@ exports.teamworkService = {
 };
 axiosService.interceptors.request.use((config) => {
     config.headers.Authorization = "Basic " + Buffer.from(`${configs_1.envsConfig.teamworkToken}` + ":" + "password").toString("base64");
-    console.log(config.url);
     return config;
 });
 //# sourceMappingURL=teamwork.service.js.map
