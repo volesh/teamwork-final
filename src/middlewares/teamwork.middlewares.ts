@@ -24,12 +24,10 @@ export const teamworkMiddlewares = {
   getPeopleEmailsByProject: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
       const { data } = await teamworkService.getPeopleByProject(+req.body.project.id);
-      console.log("People", data);
 
       const people = data.people.map((person: { ["email-address"]: string }) => {
         return person["email-address"];
       });
-      console.log("Data", people);
 
       req.people = people;
       next();

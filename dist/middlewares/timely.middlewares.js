@@ -54,7 +54,6 @@ exports.timelyMiddlewares = {
                 body.budget_type = "M";
                 body.budget = req.body.budget.capacity / 100;
             }
-            console.log("Bdy", body);
             await services_1.timelyService.updateProjectBudget(req.accountId, req.projectId, body);
             next();
         }
@@ -63,7 +62,6 @@ exports.timelyMiddlewares = {
         }
     },
     getAccount: async (req, res, next) => {
-        console.log("Working");
         try {
             const { data } = await services_1.timelyService.getAccounts();
             req.accountId = data[0].id;
@@ -87,9 +85,24 @@ exports.timelyMiddlewares = {
             const userEmail = createdHours.user.email;
             const date = createdHours.day;
             const description = createdHours.note;
-            const hours = createdHours.duration.hours;
-            const minutes = createdHours.duration.minutes;
+            let hours = createdHours.duration.hours;
+            let minutes = createdHours.duration.minutes;
             const projectName = createdHours.project.name;
+            if (minutes < 20) {
+                minutes = 20;
+            }
+            else if (minutes > 30) {
+                const remainder = minutes % 15;
+                let roundedMinutes = minutes - remainder;
+                if (remainder > 7.5) {
+                    roundedMinutes += 15;
+                }
+                minutes = roundedMinutes;
+            }
+            if (minutes === 60) {
+                hours += 1;
+                minutes = 0;
+            }
             const hoursDate = {
                 userEmail,
                 date,

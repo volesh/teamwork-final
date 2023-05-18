@@ -15,7 +15,6 @@ exports.teamworkService = {
     createHours: (data, projectId) => axiosService.post(`${configs_1.teamworkUrls.projects}/api/v3/projects/${projectId}/time.json`, data),
 };
 axiosService.interceptors.request.use((config) => {
-    console.log(config.url);
     config.headers.Authorization = "Basic " + Buffer.from(`${configs_1.envsConfig.teamworkToken}` + ":" + "password").toString("base64");
     return config;
 });
