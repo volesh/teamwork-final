@@ -1,15 +1,18 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { envsConfig, teamworkUrls } from "../configs";
 import { CreateHoursI } from "../interfaces";
+import { ProjectsResponseI, TeamworkHoursI, TeamworkPeopleI, TeamworkProjectI } from "../interfaces/teamwork";
 
 const axiosService = axios.create({ baseURL: envsConfig.teamworkBaseUrl });
 
 export const teamworkService = {
-  getPeople: () => axiosService.get(`${teamworkUrls.people}.json`),
-  getPeopleByProject: (projectId: number) => axiosService.get(`${teamworkUrls.projects}/${projectId}${teamworkUrls.people}.json`),
-  getProjectById: (id: number) => axiosService.get(`${teamworkUrls.projects}/${id}.json`),
-  getProjects: () => axiosService.get(`${teamworkUrls.projects}.json`),
-  createHours: (data: CreateHoursI, projectId: number) =>
+  getPeople: (): Promise<AxiosResponse<{ people: TeamworkPeopleI[] }>> => axiosService.get(`${teamworkUrls.people}.json`),
+  getPeopleByProject: (projectId: number): Promise<AxiosResponse<{ people: TeamworkPeopleI[] }>> =>
+    axiosService.get(`${teamworkUrls.projects}/${projectId}${teamworkUrls.people}.json`),
+  getProjectById: (id: number): Promise<AxiosResponse<ProjectsResponseI>> =>
+    axiosService.get(`${teamworkUrls.projects}/${id}.json`),
+  getProjects: (): Promise<AxiosResponse<{ projects: TeamworkProjectI[] }>> => axiosService.get(`${teamworkUrls.projects}.json`),
+  createHours: (data: CreateHoursI, projectId: number): Promise<AxiosResponse<TeamworkHoursI>> =>
     axiosService.post(`${teamworkUrls.projects}/api/v3/projects/${projectId}/time.json`, data),
 };
 

@@ -127,8 +127,11 @@ exports.timelyMiddlewares = {
                 throw new Error("Project name not found");
             }
             const { data } = await services_1.timelyService.getProjects(req.accountId);
-            const { id: projectId } = data.find((project) => project.name === req.projectName);
-            req.projectId = projectId;
+            const project = data.find((project) => project.name === req.projectName);
+            if (!project) {
+                throw new Error("Project not found");
+            }
+            req.projectId = project.id;
             next();
         }
         catch (e) {
@@ -182,11 +185,16 @@ exports.timelyMiddlewares = {
                 throw new Error("Account Id not found");
             }
             const { data } = await services_1.timelyService.getPeopleByAccountId(req.accountId);
-            const usersForCreate = data.map((user) => {
+            if (!data) {
+                throw new Error("People not found");
+            }
+            const usersForCreate = data
+                .map((user) => {
                 if (user.id && req.people?.includes(user.email)) {
                     return { user_id: +user.id };
                 }
-            });
+            })
+                .filter((elem) => elem !== undefined);
             req.usersForCreate = usersForCreate;
             next();
         }

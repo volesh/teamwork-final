@@ -11,10 +11,11 @@ export const teamworkMiddlewares = {
       if (!req.hours) {
         throw new Error("Hours data not generated");
       }
-      const { id } = people.find(
-        (person: { "email-address": String; id: number }) => person["email-address"] === req.hours?.userEmail
-      );
-      req.userId = +id;
+      const person = people.find((person) => person["email-address"] === req.hours?.userEmail);
+      if (!person) {
+        throw new Error("User not found");
+      }
+      req.userId = +person.id;
       next();
     } catch (e) {
       next(e);
@@ -25,7 +26,7 @@ export const teamworkMiddlewares = {
     try {
       const { data } = await teamworkService.getPeopleByProject(+req.body.project.id);
 
-      const people = data.people.map((person: { ["email-address"]: string }) => {
+      const people = data.people.map((person) => {
         return person["email-address"];
       });
 
@@ -40,10 +41,12 @@ export const teamworkMiddlewares = {
     try {
       const { data } = await teamworkService.getProjects();
 
-      const { id: projectId } = data.projects.find(
-        (project: { name: string; id: number }) => project.name === req.hours?.projectName
-      );
-      req.projectId = projectId;
+      const project = data.projects.find((project) => project.name === req.hours?.projectName);
+      if (project) {
+        req.projectId = +project.id;
+      } else {
+        throw new Error("Project not found");
+      }
       next();
     } catch (e) {
       next(e);

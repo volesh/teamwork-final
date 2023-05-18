@@ -1,23 +1,30 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { promises as fs } from "fs";
 import { envsConfig, timelyUrls } from "../configs";
 import { CreateProjectI } from "../interfaces";
+import { TimelyProjectI } from "../interfaces/timely";
+import { TimelyAccountI } from "../interfaces/timely/accounts";
+import { TimelyClientsI } from "../interfaces/timely/clients";
+import { TimelyUsersI } from "../interfaces/timely/users";
 
 const axiosService = axios.create({ baseURL: envsConfig.timelyBaseUrl });
 
 export const timelyService = {
-  createProject: (accountId: number, data: CreateProjectI) =>
+  createProject: (accountId: number, data: CreateProjectI): Promise<AxiosResponse<{ project: TimelyProjectI }>> =>
     axiosService.post(`${timelyUrls.version}/${accountId}${timelyUrls.projects}`, data),
 
-  getAccounts: () => axiosService.get(`${timelyUrls.version}${timelyUrls.accounts}`),
+  getAccounts: (): Promise<AxiosResponse<TimelyAccountI[]>> => axiosService.get(`${timelyUrls.version}${timelyUrls.accounts}`),
 
-  getProjects: (accountId: number) => axiosService.get(`${timelyUrls.version}/${accountId}${timelyUrls.projects}`),
+  getProjects: (accountId: number): Promise<AxiosResponse<TimelyProjectI[]>> =>
+    axiosService.get(`${timelyUrls.version}/${accountId}${timelyUrls.projects}`),
 
   getCreatedHours: (path: string, accountId: number) => axiosService.get(`${timelyUrls.version}/${accountId}${path}`),
 
-  getClients: (accountId: number) => axiosService.get(`${timelyUrls.version}/${accountId}${timelyUrls.clients}`),
+  getClients: (accountId: number): Promise<AxiosResponse<TimelyClientsI[]>> =>
+    axiosService.get(`${timelyUrls.version}/${accountId}${timelyUrls.clients}`),
 
-  getPeopleByAccountId: (accountId: number) => axiosService.get(`${timelyUrls.version}/${accountId}${timelyUrls.users}`),
+  getPeopleByAccountId: (accountId: number): Promise<AxiosResponse<TimelyUsersI[]>> =>
+    axiosService.get(`${timelyUrls.version}/${accountId}${timelyUrls.users}`),
 
   setProjectBudget: (accountId: number, projectId: number, data: { budget: number; budget_type: string }) =>
     axiosService.put(`${timelyUrls.version}/${accountId}${timelyUrls.projects}/${projectId}`, data),
