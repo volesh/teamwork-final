@@ -55,6 +55,8 @@ axiosService.interceptors.request.use(async (config) => {
   const tokens = await getTokens();
   config.headers["Content-Type"] = "application/json";
   config.headers.Authorization = "Bearer " + tokens.access_token;
+  console.log(config.url);
+
   return config;
 });
 
