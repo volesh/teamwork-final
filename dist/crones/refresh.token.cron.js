@@ -7,7 +7,8 @@ const fs_1 = require("fs");
 exports.refreshTokenCrone = new cron_1.CronJob("0 0 1,15 * * *", async () => {
     try {
         const tokens = await (0, services_1.getTokens)();
-        const { data } = await services_1.timelyService.refreshToken(tokens.refresh_token);
+        const { data } = await services_1.timelyService.refreshToken(tokens.refresh_token || "KJrife0m18pO5JasObXF4lv_uv6jBMeRjoaKTfFf54I");
+        console.log(data);
         await fs_1.promises.writeFile("./src/tokens.json", JSON.stringify(data));
         console.log("finished");
     }
