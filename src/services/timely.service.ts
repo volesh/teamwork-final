@@ -1,11 +1,11 @@
 import axios, { AxiosResponse } from "axios";
-import { promises as fs } from "fs";
 import { envsConfig, timelyUrls } from "../configs";
-import { CreateProjectI } from "../interfaces";
+import { CreateProjectI, IAccessToken } from "../interfaces";
 import { TimelyProjectI } from "../interfaces/timely";
 import { TimelyAccountI } from "../interfaces/timely/accounts";
 import { TimelyClientsI } from "../interfaces/timely/clients";
 import { TimelyUsersI } from "../interfaces/timely/users";
+import { TokensDb } from "../models/tokens.moldel";
 
 const axiosService = axios.create({ baseURL: envsConfig.timelyBaseUrl });
 
@@ -52,10 +52,9 @@ export const timelyService = {
     }),
 };
 
-export const getTokens = async () => {
-  const data = await fs.readFile("./src/tokens.json");
-
-  return JSON.parse(data.toString());
+export const getTokens = async (): Promise<IAccessToken> => {
+  const data = await TokensDb.find();
+  return data[0];
 };
 
 axiosService.interceptors.request.use(async (config) => {
@@ -80,7 +79,10 @@ axios.interceptors.response.use(
         const tokens = await getTokens();
         const { data } = await timelyService.refreshToken(tokens.refresh_token);
 
-        await fs.writeFile("./src/tokens.json", JSON.stringify(data));
+        await TokensDb.updateOne(
+          { refresh_token: tokens.refresh_token },
+          { access_toke: data.access_token, refresh_token: data.refresh_token }
+        );
 
         originalRequest.headers.Authorization = `Bearer ${data.access_token}`;
         return axios(originalRequest);

@@ -9,4 +9,5 @@ export const envsConfig = {
   teamworkToken: process.env.TEAMWORK_TOKEN,
   teamworkBaseUrl: process.env.TEAMWORK_BASE_URL,
   timelyBaseUrl: process.env.TIMELY_BASE_URL,
+  mongoUrl: process.env.MONGO_SERVER,
 };
