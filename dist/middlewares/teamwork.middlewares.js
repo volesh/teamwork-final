@@ -23,6 +23,7 @@ exports.teamworkMiddlewares = {
     },
     getPeopleEmailsByProject: async (req, res, next) => {
         try {
+            console.log(3);
             const { data } = await services_1.teamworkService.getPeopleByProject(+req.body.project.id);
             const people = data.people.map((person) => {
                 return person["email-address"];

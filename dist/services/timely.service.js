@@ -42,7 +42,8 @@ axiosService.interceptors.request.use(async (config) => {
     // const tokens = await getTokens();
     config.headers["Content-Type"] = "application/json";
     // config.headers.Authorization = "Bearer " + tokens.access_token;
-    config.headers.Authorization = "Bearer " + "tokens.access_token";
+    config.headers.Authorization = "Bearer " + "jpx_XVc4C5cK3Zg4QJsYX6W0mKf7P2_5TLDUf10bBT0";
+    console.log(config.headers.Authorization);
     return config;
 });
 axios_1.default.interceptors.response.use((response) => {
@@ -50,6 +51,7 @@ axios_1.default.interceptors.response.use((response) => {
 }, async (error) => {
     const originalRequest = error.config;
     if (error.response.status === 401 && !originalRequest._retry) {
+        console.log("asldkfjhajhkfk");
         originalRequest._retry = true;
         try {
             const tokens = await (0, exports.getTokens)();

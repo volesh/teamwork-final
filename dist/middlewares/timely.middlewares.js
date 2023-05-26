@@ -6,6 +6,7 @@ const services_1 = require("../services");
 exports.timelyMiddlewares = {
     createProject: async (req, res, next) => {
         try {
+            console.log(5);
             if (!req.body.project.name) {
                 throw new Error("Project name not found");
             }
@@ -63,6 +64,7 @@ exports.timelyMiddlewares = {
     },
     getAccount: async (req, res, next) => {
         try {
+            console.log(1);
             const { data } = await services_1.timelyService.getAccounts();
             req.accountId = data[0].id;
             next();
@@ -167,6 +169,7 @@ exports.timelyMiddlewares = {
     },
     getClient: async (req, res, next) => {
         try {
+            console.log(2);
             if (!req.accountId) {
                 throw new Error("Account id not found");
             }
@@ -181,6 +184,7 @@ exports.timelyMiddlewares = {
     },
     getUsersArr: async (req, res, next) => {
         try {
+            console.log(4);
             if (!req.accountId) {
                 throw new Error("Account Id not found");
             }
