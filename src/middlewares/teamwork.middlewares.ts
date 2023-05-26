@@ -24,6 +24,8 @@ export const teamworkMiddlewares = {
 
   getPeopleEmailsByProject: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
+      console.log(3);
+
       const { data } = await teamworkService.getPeopleByProject(+req.body.project.id);
 
       const people = data.people.map((person) => {

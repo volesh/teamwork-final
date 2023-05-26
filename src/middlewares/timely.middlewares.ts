@@ -6,6 +6,8 @@ import { IRequest } from "../interfaces";
 export const timelyMiddlewares = {
   createProject: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
+      console.log(5);
+
       if (!req.body.project.name) {
         throw new Error("Project name not found");
       }
@@ -63,6 +65,8 @@ export const timelyMiddlewares = {
 
   getAccount: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
+      console.log(1);
+
       const { data } = await timelyService.getAccounts();
       req.accountId = data[0].id;
       next();
@@ -170,6 +174,8 @@ export const timelyMiddlewares = {
 
   getClient: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
+      console.log(2);
+
       if (!req.accountId) {
         throw new Error("Account id not found");
       }
@@ -184,6 +190,8 @@ export const timelyMiddlewares = {
 
   getUsersArr: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
+      console.log(4);
+
       if (!req.accountId) {
         throw new Error("Account Id not found");
       }
