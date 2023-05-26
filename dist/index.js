@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 const configs_1 = require("./configs");
 const api_router_1 = require("./routes/api.router");
 const crones_1 = require("./crones");
-const mongoose_1 = __importDefault(require("mongoose"));
+// import mongoose from "mongoose";
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
@@ -21,7 +21,7 @@ app.use((err, req, res, next) => {
     });
 });
 app.listen(configs_1.envsConfig.port, async () => {
-    await mongoose_1.default.connect(configs_1.envsConfig.mongoUrl);
+    // await mongoose.connect(envsConfig.mongoUrl as string);
     console.log(`Port listen: ${configs_1.envsConfig.port}`);
     (0, crones_1.cronRunner)();
 });

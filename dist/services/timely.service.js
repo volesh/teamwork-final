@@ -39,9 +39,10 @@ const getTokens = async () => {
 };
 exports.getTokens = getTokens;
 axiosService.interceptors.request.use(async (config) => {
-    const tokens = await (0, exports.getTokens)();
+    // const tokens = await getTokens();
     config.headers["Content-Type"] = "application/json";
-    config.headers.Authorization = "Bearer " + tokens.access_token;
+    // config.headers.Authorization = "Bearer " + tokens.access_token;
+    config.headers.Authorization = "Bearer " + "tokens.access_token";
     return config;
 });
 axios_1.default.interceptors.response.use((response) => {

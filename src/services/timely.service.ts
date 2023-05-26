@@ -58,9 +58,10 @@ export const getTokens = async (): Promise<IAccessToken> => {
 };
 
 axiosService.interceptors.request.use(async (config) => {
-  const tokens = await getTokens();
+  // const tokens = await getTokens();
   config.headers["Content-Type"] = "application/json";
-  config.headers.Authorization = "Bearer " + tokens.access_token;
+  // config.headers.Authorization = "Bearer " + tokens.access_token;
+  config.headers.Authorization = "Bearer " + "tokens.access_token";
 
   return config;
 });

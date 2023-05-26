@@ -7,7 +7,6 @@
     "start": "node ./dist/index.js",
     "start:dev": "rimraf dist && tsc-watch --onSuccess \" npm run dev \"",
     "dev": "nodemon ./src/index.ts --watch ./src --onChange \" rimraf dist\" ",
-    "build": "tsc",
     "lint": "eslint --cache --ext .js,.ts src",
     "lint-fix": "npm run lint -- --fix"
   },
