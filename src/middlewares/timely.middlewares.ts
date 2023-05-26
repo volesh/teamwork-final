@@ -1,7 +1,7 @@
 import { NextFunction, Response } from "express";
 import { timelyService } from "../services";
 import { IRequest } from "../interfaces";
-import { TokensDb } from "../models/tokens.moldel";
+// import { TokensDb } from "../models/tokens.moldel";
 
 export const timelyMiddlewares = {
   createProject: async (req: IRequest, res: Response, next: NextFunction) => {
@@ -208,9 +208,11 @@ export const timelyMiddlewares = {
   getTokens: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
       const code = req.query.code as string;
-      await TokensDb.deleteMany();
+      // await TokensDb.deleteMany();
       const { data } = await timelyService.getTokens(code);
-      await TokensDb.create({ access_token: data.access_token, refresh_token: data.refresh_token });
+      // await TokensDb.create({ access_token: data.access_token, refresh_token: data.refresh_token });
+      console.log(data);
+
       next();
     } catch (e) {
       next(e);
