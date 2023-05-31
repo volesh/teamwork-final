@@ -1,5 +1,6 @@
 import { DataSource } from "typeorm";
 import { envsConfig } from "../configs";
+import Tokens from "./models/tokens.moldel";
 
 export const dataSourse = new DataSource({
   type: "postgres",
@@ -8,7 +9,7 @@ export const dataSourse = new DataSource({
   username: envsConfig.postgresUser,
   password: envsConfig.postgresPassword,
   database: envsConfig.postgresDatabase,
-  entities: [__dirname + "/models/**/*.{js,ts}"],
+  entities: [Tokens],
   synchronize: true,
   logging: false,
 });

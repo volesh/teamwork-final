@@ -1,4 +1,5 @@
 import { envsConfig } from "./configs";
+import Tokens from "./database/models/tokens.moldel";
 
 export default {
   type: "postgres",
@@ -7,7 +8,7 @@ export default {
   username: envsConfig.postgresUser,
   password: envsConfig.postgresPassword,
   database: envsConfig.postgresDatabase,
-  entities: [__dirname + "/database/models/**/*.{js,ts}"],
+  entities: [Tokens],
   synchronize: true,
   logging: false,
 };
