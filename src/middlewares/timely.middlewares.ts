@@ -215,7 +215,6 @@ export const timelyMiddlewares = {
         console.log("Nothing to delete");
       }
       const { data } = await timelyService.getTokens(code);
-      console.log(data);
 
       await dataSourse.manager.save(Tokens, [{ access_token: data.access_token, refresh_token: data.refresh_token }]);
       next();
