@@ -209,7 +209,12 @@ exports.timelyMiddlewares = {
     getTokens: async (req, res, next) => {
         try {
             const code = req.query.code;
-            await connection_1.dataSourse.manager.delete(tokens_moldel_1.default, {});
+            try {
+                await connection_1.dataSourse.manager.delete(tokens_moldel_1.default, {});
+            }
+            catch (e) {
+                console.log("Nothing to delete");
+            }
             const { data } = await services_1.timelyService.getTokens(code);
             await connection_1.dataSourse.manager.save(tokens_moldel_1.default, [{ access_token: data.access_token, refresh_token: data.refresh_token }]);
             next();

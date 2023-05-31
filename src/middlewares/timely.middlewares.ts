@@ -209,7 +209,11 @@ export const timelyMiddlewares = {
   getTokens: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
       const code = req.query.code as string;
-      await dataSourse.manager.delete(Tokens, {});
+      try {
+        await dataSourse.manager.delete(Tokens, {});
+      } catch (e) {
+        console.log("Nothing to delete");
+      }
       const { data } = await timelyService.getTokens(code);
       await dataSourse.manager.save(Tokens, [{ access_token: data.access_token, refresh_token: data.refresh_token }]);
       next();
