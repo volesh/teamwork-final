@@ -64,6 +64,8 @@ export const timelyMiddlewares = {
 
   getAccount: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
+      console.log("account");
+
       const { data } = await timelyService.getAccounts();
       req.accountId = data[0].id;
       next();
@@ -124,6 +126,8 @@ export const timelyMiddlewares = {
 
   getTimelyProjectByName: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
+      console.log("project");
+
       if (!req.accountId) {
         throw new Error("Account id not foind");
       }

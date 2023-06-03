@@ -64,6 +64,8 @@ export const getTokens = async () => {
 
 axiosService.interceptors.request.use(async (config) => {
   const tokens = await getTokens();
+  console.log(tokens);
+
   if (!tokens) return config;
 
   config.headers["Content-Type"] = "application/json";
