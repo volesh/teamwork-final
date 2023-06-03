@@ -151,7 +151,7 @@ export const timelyMiddlewares = {
       if (!req.projectId) {
         throw new Error("Project id not found");
       }
-      const body = {
+      const body: { budget: number; budget_type: string; budget_recurrence?: any } = {
         budget: 0,
         budget_type: "",
       };
@@ -161,6 +161,15 @@ export const timelyMiddlewares = {
       } else {
         body.budget_type = "M";
         body.budget = req.body.budget.capacity / 100;
+      }
+      if (req.body.budget.isRepeating) {
+        const budget_recurrence = {
+          recur: req.body.budget.repeatUnit.toLowerCase(),
+          start_date: req.body.budget.startDateTime,
+          end_date: null,
+          recur_until: "archived",
+        };
+        body.budget_recurrence = budget_recurrence;
       }
       await timelyService.setProjectBudget(req.accountId, req.projectId, body);
       next();
