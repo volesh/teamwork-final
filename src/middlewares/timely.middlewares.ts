@@ -175,6 +175,8 @@ export const timelyMiddlewares = {
         throw new Error("Account id not found");
       }
       const { data } = await timelyService.getClients(req.accountId);
+      console.log(data);
+
       const clientId = data[0].id;
       req.clientId = clientId;
       next();
