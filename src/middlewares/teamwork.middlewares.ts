@@ -57,9 +57,14 @@ export const teamworkMiddlewares = {
     try {
       console.log(req.body);
 
-      const { data } = await teamworkService.getProjectById(req.body.budget.projectId);
+      let data: any = {};
+      if (req.body.budget) {
+        data = await teamworkService.getProjectById(req.body.budget.projectId);
+      } else {
+        data = await teamworkService.getProjectById(req.body.project.projectId);
+      }
 
-      req.projectName = data.project.name;
+      req.projectName = data.data.project.name;
       next();
     } catch (e) {
       next(e);
