@@ -7,6 +7,7 @@ import { TimelyClientsI } from "../interfaces/timely/clients";
 import { TimelyUsersI } from "../interfaces/timely/users";
 import { dataSourse } from "../database/connection";
 import Tokens from "../database/models/tokens.moldel";
+import { CreateBudgetI } from "../interfaces/timely/create.budget.interface";
 
 const axiosService = axios.create({ baseURL: envsConfig.timelyBaseUrl });
 
@@ -27,11 +28,8 @@ export const timelyService = {
   getPeopleByAccountId: (accountId: number): Promise<AxiosResponse<TimelyUsersI[]>> =>
     axiosService.get(`${timelyUrls.version}/${accountId}${timelyUrls.users}`),
 
-  setProjectBudget: (
-    accountId: number,
-    projectId: number,
-    data: { project: { budget: number; budget_type: string; budget_recurrence?: any; has_recurrence?: boolean } }
-  ) => axiosService.put(`${timelyUrls.version}/${accountId}${timelyUrls.projects}/${projectId}`, data),
+  setProjectBudget: (accountId: number, projectId: number, data: CreateBudgetI) =>
+    axiosService.put(`${timelyUrls.version}/${accountId}${timelyUrls.projects}/${projectId}`, data),
 
   updateProjectBudget: (accountId: number, projectId: number, data: any) =>
     axiosService.patch(`${timelyUrls.version}/${accountId}${timelyUrls.projects}/${projectId}`, data),

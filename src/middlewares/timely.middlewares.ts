@@ -1,6 +1,7 @@
 import { NextFunction, Response } from "express";
 import { timelyService } from "../services";
 import { IRequest } from "../interfaces";
+import { CreateBudgetI } from "../interfaces/timely/create.budget.interface";
 // import { dataSourse } from "../database/connection";
 // import Tokens from "../database/models/tokens.moldel";
 
@@ -151,7 +152,7 @@ export const timelyMiddlewares = {
       if (!req.projectId) {
         throw new Error("Project id not found");
       }
-      const body: { project: { budget: number; budget_type: string; budget_recurrence?: any; has_recurrence?: boolean } } = {
+      const body: CreateBudgetI = {
         project: {
           budget: 0,
           budget_type: "",
@@ -165,15 +166,13 @@ export const timelyMiddlewares = {
         body.project.budget = req.body.budget.capacity / 100;
       }
       if (req.body.budget.isRepeating) {
-        // const date = req.body.budget.startDateTime.split("T")[0];
-        // body.has_recurrence = true;
-        const budget_recurrence = { recur: "month", start_date: "2023-06-01", end_date: null, recur_until: "archived" };
-        // const budget_recurrence = {
-        //   recur: req.body.budget.repeatUnit.toLowerCase(),
-        //   start_date: date,
-        //   end_date: null,
-        //   recur_until: "archived",
-        // };
+        const date = req.body.budget.startDateTime.split("T")[0];
+        const budget_recurrence = {
+          recur: req.body.budget.repeatUnit.toLowerCase(),
+          start_date: date,
+          end_date: null,
+          recur_until: "archived",
+        };
         body.project.budget_recurrence = budget_recurrence;
       }
 
