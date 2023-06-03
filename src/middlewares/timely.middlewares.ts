@@ -174,7 +174,9 @@ export const timelyMiddlewares = {
       }
       console.log("body", body);
 
-      await timelyService.setProjectBudget(req.accountId, req.projectId, body);
+      const { data } = await timelyService.setProjectBudget(req.accountId, req.projectId, body);
+      console.log(data);
+
       next();
     } catch (e) {
       next(e);
