@@ -163,9 +163,10 @@ export const timelyMiddlewares = {
         body.budget = req.body.budget.capacity / 100;
       }
       if (req.body.budget.isRepeating) {
+        const date = req.body.budget.startDateTime.split("T")[0];
         const budget_recurrence = {
           recur: req.body.budget.repeatUnit.toLowerCase(),
-          start_date: req.body.budget.startDateTime,
+          start_date: date,
           end_date: null,
           recur_until: "archived",
         };
