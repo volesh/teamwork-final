@@ -64,8 +64,6 @@ export const timelyMiddlewares = {
 
   getAccount: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
-      console.log("account");
-
       const { data } = await timelyService.getAccounts();
       req.accountId = data[0].id;
       next();
@@ -126,8 +124,6 @@ export const timelyMiddlewares = {
 
   getTimelyProjectByName: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
-      console.log("project");
-
       if (!req.accountId) {
         throw new Error("Account id not foind");
       }
@@ -179,8 +175,6 @@ export const timelyMiddlewares = {
         throw new Error("Account id not found");
       }
       const { data } = await timelyService.getClients(req.accountId);
-      console.log(data);
-
       const clientId = data[0].id;
       req.clientId = clientId;
       next();
@@ -215,19 +209,16 @@ export const timelyMiddlewares = {
   getTokens: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
       const code = req.query.code as string;
-      // try {
-      //   await dataSourse.manager.delete(Tokens, {});
-      // } catch (e) {
-      //   console.log("Nothing to delete");
-      // }
-      const { data } = await timelyService.getTokens(code);
-      console.log(data);
+      // await dataSourse.manager.delete(Tokens, {});
 
-      // await dataSourse.manager.save(Tokens, [{ access_token: data.access_token, refresh_token: data.refresh_token }]);
+      const { data } = await timelyService.getTokens(code);
+      console.log("data", data);
+
+      // await dataSourse.manager.save(Tokens, { access_token: data.access_token, refresh_token: data.refresh_token });
+      // const tokens = await dataSourse.manager.find(Tokens);
+
       next();
     } catch (e) {
-      console.log(e);
-
       next(e);
     }
   },

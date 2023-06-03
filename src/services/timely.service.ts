@@ -5,8 +5,8 @@ import { TimelyProjectI } from "../interfaces/timely";
 import { TimelyAccountI } from "../interfaces/timely/accounts";
 import { TimelyClientsI } from "../interfaces/timely/clients";
 import { TimelyUsersI } from "../interfaces/timely/users";
-// import { dataSourse } from "../database/connection";
-// import Tokens from "../database/models/tokens.moldel";
+import { dataSourse } from "../database/connection";
+import Tokens from "../database/models/tokens.moldel";
 
 const axiosService = axios.create({ baseURL: envsConfig.timelyBaseUrl });
 
@@ -55,59 +55,46 @@ export const timelyService = {
 
 export const getTokens = async () => {
   // const data = await dataSourse.manager.find(Tokens);
-  return {
-    access_token: "O-j4rERkuV0o08-5QlING5gkvZM8H-oK4dcLVeyOF4E",
-    refresh_token: "yxbLegOmBwUwgg3W-olHqMLJ31vJrwYbbJU20yWgJxM",
-  };
-  // return data[0];
+  return { access_token: "lsdkjhfg", refresh_token: "kdjfhgdkf" };
 };
 
 axiosService.interceptors.request.use(async (config) => {
   const tokens = await getTokens();
-  console.log(tokens);
-
   if (!tokens) return config;
-
   config.headers["Content-Type"] = "application/json";
   config.headers.Authorization = "Bearer " + tokens.access_token;
-  console.log(config.baseURL, config.url);
-  console.log(config.headers);
 
   return config;
 });
 
-// axios.interceptors.response.use(
-//   (response) => {
-//     console.log(response);
+axios.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async (error) => {
+    const originalRequest = error.config;
 
-//     return response;
-//   },
-//   async (error) => {
-//     const originalRequest = error.config;
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
 
-//     if (error.response.status === 401 && !originalRequest._retry) {
-//       originalRequest._retry = true;
+      try {
+        const tokens = await getTokens();
+        const { data } = await timelyService.refreshToken(tokens.refresh_token);
 
-//       try {
-//         const tokens = await getTokens();
-//         const { data } = await timelyService.refreshToken(tokens.refresh_token);
+        await dataSourse.manager.update(
+          Tokens,
+          { refresh_token: tokens.refresh_token },
+          { access_token: data.access_token, refresh_token: data.refresh_token }
+        );
 
-//         // await dataSourse.manager.update(
-//         //   Tokens,
-//         //   { refresh_token: tokens.refresh_token },
-//         //   { access_token: data.access_token, refresh_token: data.refresh_token }
-//         // );
+        originalRequest.headers.Authorization = `Bearer ${data.access_token}`;
+        return axios(originalRequest);
+      } catch (refreshError) {
+        console.error(refreshError);
+        return Promise.reject(refreshError);
+      }
+    }
 
-//         originalRequest.headers.Authorization = `Bearer ${data.access_token}`;
-//         return axios(originalRequest);
-//       } catch (refreshError) {
-//         console.log("error");
-
-//         console.error(refreshError);
-//         return Promise.reject(refreshError);
-//       }
-//     }
-
-//     return Promise.reject(error);
-//   }
-// );
+    return Promise.reject(error);
+  }
+);
