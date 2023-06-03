@@ -1,8 +1,8 @@
 import { NextFunction, Response } from "express";
 import { timelyService } from "../services";
 import { IRequest } from "../interfaces";
-import { dataSourse } from "../database/connection";
-import Tokens from "../database/models/tokens.moldel";
+// import { dataSourse } from "../database/connection";
+// import Tokens from "../database/models/tokens.moldel";
 
 export const timelyMiddlewares = {
   createProject: async (req: IRequest, res: Response, next: NextFunction) => {
@@ -209,14 +209,15 @@ export const timelyMiddlewares = {
   getTokens: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
       const code = req.query.code as string;
-      try {
-        await dataSourse.manager.delete(Tokens, {});
-      } catch (e) {
-        console.log("Nothing to delete");
-      }
+      // try {
+      //   await dataSourse.manager.delete(Tokens, {});
+      // } catch (e) {
+      //   console.log("Nothing to delete");
+      // }
       const { data } = await timelyService.getTokens(code);
+      console.log(data);
 
-      await dataSourse.manager.save(Tokens, [{ access_token: data.access_token, refresh_token: data.refresh_token }]);
+      // await dataSourse.manager.save(Tokens, [{ access_token: data.access_token, refresh_token: data.refresh_token }]);
       next();
     } catch (e) {
       console.log(e);

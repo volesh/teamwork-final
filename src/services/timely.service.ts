@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { envsConfig, timelyUrls } from "../configs";
-import { CreateProjectI, IAccessToken } from "../interfaces";
+import { CreateProjectI } from "../interfaces";
 import { TimelyProjectI } from "../interfaces/timely";
 import { TimelyAccountI } from "../interfaces/timely/accounts";
 import { TimelyClientsI } from "../interfaces/timely/clients";
@@ -53,9 +53,10 @@ export const timelyService = {
     }),
 };
 
-export const getTokens = async (): Promise<IAccessToken> => {
-  const data = await dataSourse.manager.find(Tokens);
-  return data[0];
+export const getTokens = async () => {
+  // const data = await dataSourse.manager.find(Tokens);
+  return { access_token: "jflshgf", refresh_token: "dkjfhg" };
+  // return data[0];
 };
 
 axiosService.interceptors.request.use(async (config) => {
