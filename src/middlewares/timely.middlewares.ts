@@ -171,6 +171,8 @@ export const timelyMiddlewares = {
         };
         body.budget_recurrence = budget_recurrence;
       }
+      console.log("body", body);
+
       await timelyService.setProjectBudget(req.accountId, req.projectId, body);
       next();
     } catch (e) {
