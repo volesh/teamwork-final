@@ -163,14 +163,15 @@ export const timelyMiddlewares = {
         body.budget = req.body.budget.capacity / 100;
       }
       if (req.body.budget.isRepeating) {
-        const date = req.body.budget.startDateTime.split("T")[0];
-        body.has_recurrence = true;
-        const budget_recurrence = {
-          recur: req.body.budget.repeatUnit.toLowerCase(),
-          start_date: date,
-          end_date: null,
-          recur_until: "archived",
-        };
+        // const date = req.body.budget.startDateTime.split("T")[0];
+        // body.has_recurrence = true;
+        const budget_recurrence = { recur: "month", start_date: "2023-06-01", end_date: null, recur_until: "archived" };
+        // const budget_recurrence = {
+        //   recur: req.body.budget.repeatUnit.toLowerCase(),
+        //   start_date: date,
+        //   end_date: null,
+        //   recur_until: "archived",
+        // };
         body.budget_recurrence = budget_recurrence;
       }
 
