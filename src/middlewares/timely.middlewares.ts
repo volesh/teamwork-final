@@ -162,6 +162,7 @@ export const timelyMiddlewares = {
         body.budget_type = "M";
         body.budget = req.body.budget.capacity / 100;
       }
+
       if (req.body.budget.isRepeating) {
         const date = req.body.budget.startDateTime.split("T")[0];
         body.has_recurrence = true;
@@ -172,12 +173,8 @@ export const timelyMiddlewares = {
           recur_until: "archived",
         };
         body.budget_recurrence = budget_recurrence;
+        await setTimeout(() => timelyService.setProjectBudget(req.accountId!, req.projectId!, body), 3000);
       }
-      console.log("body", body);
-
-      const { data } = await timelyService.setProjectBudget(req.accountId, req.projectId, body);
-      console.log(data);
-
       next();
     } catch (e) {
       next(e);
