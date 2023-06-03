@@ -27,8 +27,11 @@ export const timelyService = {
   getPeopleByAccountId: (accountId: number): Promise<AxiosResponse<TimelyUsersI[]>> =>
     axiosService.get(`${timelyUrls.version}/${accountId}${timelyUrls.users}`),
 
-  setProjectBudget: (accountId: number, projectId: number, data: { budget: number; budget_type: string }) =>
-    axiosService.put(`${timelyUrls.version}/${accountId}${timelyUrls.projects}/${projectId}`, data),
+  setProjectBudget: (
+    accountId: number,
+    projectId: number,
+    data: { project: { budget: number; budget_type: string; budget_recurrence?: any; has_recurrence?: boolean } }
+  ) => axiosService.put(`${timelyUrls.version}/${accountId}${timelyUrls.projects}/${projectId}`, data),
 
   updateProjectBudget: (accountId: number, projectId: number, data: any) =>
     axiosService.patch(`${timelyUrls.version}/${accountId}${timelyUrls.projects}/${projectId}`, data),

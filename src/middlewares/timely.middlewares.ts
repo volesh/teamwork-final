@@ -151,16 +151,18 @@ export const timelyMiddlewares = {
       if (!req.projectId) {
         throw new Error("Project id not found");
       }
-      const body: { budget: number; budget_type: string; budget_recurrence?: any; has_recurrence?: boolean } = {
-        budget: 0,
-        budget_type: "",
+      const body: { project: { budget: number; budget_type: string; budget_recurrence?: any; has_recurrence?: boolean } } = {
+        project: {
+          budget: 0,
+          budget_type: "",
+        },
       };
       if (req.body.budget.type === "TIME") {
-        body.budget_type = "H";
-        body.budget = req.body.budget.capacity / 60;
+        body.project.budget_type = "H";
+        body.project.budget = req.body.budget.capacity / 60;
       } else {
-        body.budget_type = "M";
-        body.budget = req.body.budget.capacity / 100;
+        body.project.budget_type = "M";
+        body.project.budget = req.body.budget.capacity / 100;
       }
       if (req.body.budget.isRepeating) {
         // const date = req.body.budget.startDateTime.split("T")[0];
@@ -172,7 +174,7 @@ export const timelyMiddlewares = {
         //   end_date: null,
         //   recur_until: "archived",
         // };
-        body.budget_recurrence = budget_recurrence;
+        body.project.budget_recurrence = budget_recurrence;
       }
 
       await timelyService.setProjectBudget(req.accountId, req.projectId, body);
