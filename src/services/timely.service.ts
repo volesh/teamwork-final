@@ -7,7 +7,6 @@ import { TimelyClientsI } from "../interfaces/timely/clients";
 import { TimelyUsersI } from "../interfaces/timely/users";
 import { dataSourse } from "../database/connection";
 import Tokens from "../database/models/tokens.moldel";
-import { response } from "express";
 
 const axiosService = axios.create({ baseURL: envsConfig.timelyBaseUrl });
 
@@ -69,17 +68,19 @@ axiosService.interceptors.request.use(async (config) => {
 
   config.headers["Content-Type"] = "application/json";
   config.headers.Authorization = "Bearer " + tokens.access_token;
+  console.log(config.baseURL, config.url);
+  console.log(config.headers);
 
   return config;
 });
 
 axios.interceptors.response.use(
   (response) => {
+    console.log(response);
+
     return response;
   },
   async (error) => {
-    console.log(response);
-
     const originalRequest = error.config;
 
     if (error.response.status === 401 && !originalRequest._retry) {
@@ -99,6 +100,8 @@ axios.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${data.access_token}`;
         return axios(originalRequest);
       } catch (refreshError) {
+        console.log("error");
+
         console.error(refreshError);
         return Promise.reject(refreshError);
       }
