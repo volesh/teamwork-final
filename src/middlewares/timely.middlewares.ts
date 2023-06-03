@@ -221,6 +221,21 @@ export const timelyMiddlewares = {
     }
   },
 
+  archiveProject: async (req: IRequest, res: Response, next: NextFunction) => {
+    try {
+      if (!req.accountId) {
+        throw new Error("Account id not found");
+      }
+      if (!req.projectId) {
+        throw new Error("Project id not found");
+      }
+      await timelyService.updateProject(req.accountId, req.projectId, { project: { active: false } });
+      next();
+    } catch (e) {
+      next(e);
+    }
+  },
+
   getTokens: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
       const code = req.query.code as string;

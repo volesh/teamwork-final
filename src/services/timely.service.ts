@@ -31,6 +31,9 @@ export const timelyService = {
   setProjectBudget: (accountId: number, projectId: number, data: CreateBudgetI) =>
     axiosService.put(`${timelyUrls.version}/${accountId}${timelyUrls.projects}/${projectId}`, data),
 
+  updateProject: (accountId: number, projectId: number, data: { project: any }) =>
+    axiosService.put(`${timelyUrls.version}/${accountId}${timelyUrls.projects}/${projectId}`, data),
+
   updateProjectBudget: (accountId: number, projectId: number, data: any) =>
     axiosService.patch(`${timelyUrls.version}/${accountId}${timelyUrls.projects}/${projectId}`, data),
 
