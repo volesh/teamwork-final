@@ -66,11 +66,9 @@ export const getTokens = async () => {
 axiosService.interceptors.request.use(async (config) => {
   const tokens = await getTokens();
   if (!tokens) return config;
-  console.log(config.baseURL, config.url);
 
   config.headers["Content-Type"] = "application/json";
   config.headers.Authorization = "Bearer " + tokens.access_token;
-  console.log(config.headers);
 
   return config;
 });
@@ -90,6 +88,7 @@ axios.interceptors.response.use(
       try {
         const tokens = await getTokens();
         const { data } = await timelyService.refreshToken(tokens.refresh_token);
+        console.log("refresh");
 
         await dataSourse.manager.update(
           Tokens,
