@@ -151,7 +151,7 @@ export const timelyMiddlewares = {
       if (!req.projectId) {
         throw new Error("Project id not found");
       }
-      const body: { budget: number; budget_type: string; budget_recurrence?: any } = {
+      const body: { budget: number; budget_type: string; budget_recurrence?: any; has_recurrence?: boolean } = {
         budget: 0,
         budget_type: "",
       };
@@ -164,6 +164,7 @@ export const timelyMiddlewares = {
       }
       if (req.body.budget.isRepeating) {
         const date = req.body.budget.startDateTime.split("T")[0];
+        body.has_recurrence = true;
         const budget_recurrence = {
           recur: req.body.budget.repeatUnit.toLowerCase(),
           start_date: date,
