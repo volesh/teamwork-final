@@ -34,7 +34,7 @@ teamworkRouter.post(
 
 teamworkRouter.post(
   "/archived-project",
-  teamworkMiddlewares.getProjectName,
+  teamworkMiddlewares.saveProjectName,
   timelyMiddlewares.getAccount,
   timelyMiddlewares.getTimelyProjectByName,
   timelyMiddlewares.archiveProject,
