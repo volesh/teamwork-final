@@ -1,12 +1,13 @@
 import axios, { AxiosResponse } from "axios";
 import { envsConfig, timelyUrls } from "../configs";
-import { CreateProjectI, IAccessToken } from "../interfaces";
+import { CreateProjectI } from "../interfaces";
 import { TimelyProjectI } from "../interfaces/timely";
 import { TimelyAccountI } from "../interfaces/timely/accounts";
 import { TimelyClientsI } from "../interfaces/timely/clients";
 import { TimelyUsersI } from "../interfaces/timely/users";
 import { dataSourse } from "../database/connection";
 import Tokens from "../database/models/tokens.moldel";
+import { CreateBudgetI } from "../interfaces/timely/create.budget.interface";
 
 const axiosService = axios.create({ baseURL: envsConfig.timelyBaseUrl });
 
@@ -27,7 +28,10 @@ export const timelyService = {
   getPeopleByAccountId: (accountId: number): Promise<AxiosResponse<TimelyUsersI[]>> =>
     axiosService.get(`${timelyUrls.version}/${accountId}${timelyUrls.users}`),
 
-  setProjectBudget: (accountId: number, projectId: number, data: { budget: number; budget_type: string }) =>
+  setProjectBudget: (accountId: number, projectId: number, data: CreateBudgetI) =>
+    axiosService.put(`${timelyUrls.version}/${accountId}${timelyUrls.projects}/${projectId}`, data),
+
+  updateProject: (accountId: number, projectId: number, data: { project: any }) =>
     axiosService.put(`${timelyUrls.version}/${accountId}${timelyUrls.projects}/${projectId}`, data),
 
   updateProjectBudget: (accountId: number, projectId: number, data: any) =>
@@ -53,15 +57,18 @@ export const timelyService = {
     }),
 };
 
-export const getTokens = async (): Promise<IAccessToken> => {
-  const data = await dataSourse.manager.find(Tokens);
-  return data[0];
+export const getTokens = async () => {
+  // const data = await dataSourse.manager.find(Tokens);
+  return {
+    access_token: "O-j4rERkuV0o08-5QlING5gkvZM8H-oK4dcLVeyOF4E",
+    refresh_token: "yxbLegOmBwUwgg3W-olHqMLJ31vJrwYbbJU20yWgJxM",
+  };
 };
 
 axiosService.interceptors.request.use(async (config) => {
   const tokens = await getTokens();
+  console.log(config.url);
   if (!tokens) return config;
-
   config.headers["Content-Type"] = "application/json";
   config.headers.Authorization = "Bearer " + tokens.access_token;
 

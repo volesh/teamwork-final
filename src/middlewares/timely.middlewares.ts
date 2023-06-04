@@ -1,8 +1,10 @@
 import { NextFunction, Response } from "express";
 import { timelyService } from "../services";
 import { IRequest } from "../interfaces";
-import { dataSourse } from "../database/connection";
-import Tokens from "../database/models/tokens.moldel";
+import { CreateBudgetI } from "../interfaces/timely/create.budget.interface";
+import { generateRandomColor } from "../helpers/generate.random.color";
+// import { dataSourse } from "../database/connection";
+// import Tokens from "../database/models/tokens.moldel";
 
 export const timelyMiddlewares = {
   createProject: async (req: IRequest, res: Response, next: NextFunction) => {
@@ -19,11 +21,13 @@ export const timelyMiddlewares = {
       if (!req.usersForCreate) {
         throw new Error(`Users id not found`);
       }
+      console.log(generateRandomColor());
+
       const dataForCreate = {
         project: {
           name: req.body.project.name,
           rate_type: "project",
-          color: "67a3bc",
+          color: generateRandomColor(),
           client_id: +req.clientId,
           users: req.usersForCreate,
         },
@@ -151,18 +155,32 @@ export const timelyMiddlewares = {
       if (!req.projectId) {
         throw new Error("Project id not found");
       }
-      const body = {
-        budget: 0,
-        budget_type: "",
+      const body: CreateBudgetI = {
+        project: {
+          budget: 0,
+          budget_type: "",
+        },
       };
       if (req.body.budget.type === "TIME") {
-        body.budget_type = "H";
-        body.budget = req.body.budget.capacity / 60;
+        body.project.budget_type = "H";
+        body.project.budget = req.body.budget.capacity / 60;
       } else {
-        body.budget_type = "M";
-        body.budget = req.body.budget.capacity / 100;
+        body.project.budget_type = "M";
+        body.project.budget = req.body.budget.capacity / 100;
       }
+      if (req.body.budget.isRepeating) {
+        const date = req.body.budget.startDateTime.split("T")[0];
+        const budget_recurrence = {
+          recur: req.body.budget.repeatUnit.toLowerCase(),
+          start_date: date,
+          end_date: null,
+          recur_until: "archived",
+        };
+        body.project.budget_recurrence = budget_recurrence;
+      }
+
       await timelyService.setProjectBudget(req.accountId, req.projectId, body);
+
       next();
     } catch (e) {
       next(e);
@@ -206,21 +224,34 @@ export const timelyMiddlewares = {
     }
   },
 
+  archiveProject: async (req: IRequest, res: Response, next: NextFunction) => {
+    try {
+      if (!req.accountId) {
+        throw new Error("Account id not found");
+      }
+      if (!req.projectId) {
+        throw new Error("Project id not found");
+      }
+      await timelyService.updateProject(req.accountId, req.projectId, { project: { active: false } });
+      next();
+    } catch (e) {
+      next(e);
+    }
+  },
+
   getTokens: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
       const code = req.query.code as string;
-      try {
-        await dataSourse.manager.delete(Tokens, {});
-      } catch (e) {
-        console.log("Nothing to delete");
-      }
-      const { data } = await timelyService.getTokens(code);
+      // await dataSourse.manager.delete(Tokens, {});
 
-      await dataSourse.manager.save(Tokens, [{ access_token: data.access_token, refresh_token: data.refresh_token }]);
+      const { data } = await timelyService.getTokens(code);
+      console.log("data", data);
+
+      // await dataSourse.manager.save(Tokens, { access_token: data.access_token, refresh_token: data.refresh_token });
+      // const tokens = await dataSourse.manager.find(Tokens);
+
       next();
     } catch (e) {
-      console.log(e);
-
       next(e);
     }
   },

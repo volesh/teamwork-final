@@ -55,9 +55,19 @@ export const teamworkMiddlewares = {
 
   getProjectName: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
-      const { data } = await teamworkService.getProjectById(req.body.budget.projectId);
+      console.log(req.body);
 
+      const { data } = await teamworkService.getProjectById(req.body.budget.projectId);
       req.projectName = data.project.name;
+      next();
+    } catch (e) {
+      next(e);
+    }
+  },
+
+  saveProjectName: async (req: IRequest, res: Response, next: NextFunction) => {
+    try {
+      req.projectName = req.body.project.name;
       next();
     } catch (e) {
       next(e);
