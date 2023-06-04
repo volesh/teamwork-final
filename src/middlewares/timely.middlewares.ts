@@ -2,6 +2,7 @@ import { NextFunction, Response } from "express";
 import { timelyService } from "../services";
 import { IRequest } from "../interfaces";
 import { CreateBudgetI } from "../interfaces/timely/create.budget.interface";
+import { generateRandomColor } from "../helpers/generate.random.color";
 // import { dataSourse } from "../database/connection";
 // import Tokens from "../database/models/tokens.moldel";
 
@@ -24,7 +25,7 @@ export const timelyMiddlewares = {
         project: {
           name: req.body.project.name,
           rate_type: "project",
-          color: "67a3bc",
+          color: generateRandomColor(),
           client_id: +req.clientId,
           users: req.usersForCreate,
         },
