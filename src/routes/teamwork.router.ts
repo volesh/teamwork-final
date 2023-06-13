@@ -38,7 +38,7 @@ teamworkRouter.post(
   timelyMiddlewares.getAccount,
   timelyMiddlewares.getTimelyProjectByName,
   timelyMiddlewares.archiveProject,
-  teamworkController.updateBudget
+  teamworkController.archiveProject
 );
 
 export { teamworkRouter };

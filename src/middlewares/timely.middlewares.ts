@@ -21,7 +21,6 @@ export const timelyMiddlewares = {
       if (!req.usersForCreate) {
         throw new Error(`Users id not found`);
       }
-      console.log(generateRandomColor());
 
       const dataForCreate = {
         project: {
