@@ -60,8 +60,8 @@ export const timelyService = {
 export const getTokens = async () => {
   // const data = await dataSourse.manager.find(Tokens);
   return {
-    access_token: "O-j4rERkuV0o08-5QlING5gkvZM8H-oK4dcLVeyOF4E",
-    refresh_token: "yxbLegOmBwUwgg3W-olHqMLJ31vJrwYbbJU20yWgJxM",
+    access_token: "T2U0U3e7Sw7lkl5-FL7TpS60P_W4MYU6aYZUqSo-e2k",
+    refresh_token: "MqeKsFLG_2KohS3PmXPARq7N9jfAUIWgREzbsU8Ngm0",
   };
 };
 
