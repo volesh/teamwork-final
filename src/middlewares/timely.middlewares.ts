@@ -86,46 +86,44 @@ export const timelyMiddlewares = {
         throw new Error("Missing accountId");
       }
       const path = req.body.payload.entity_path;
-      console.log(path);
+
+      const { data: createdHours } = await timelyService.getCreatedHours(path, accountId);
+
+      if (!createdHours) {
+        throw new Error("Created hours not found");
+      }
+      const userEmail = createdHours.user.email;
+      const date = createdHours.day;
+      const description = createdHours.note;
+      let hours = createdHours.duration.hours;
+      let minutes = createdHours.duration.minutes;
+      const projectName = createdHours.project.name;
+
+      if (minutes < 20) {
+        minutes = 20;
+      } else if (minutes > 30) {
+        const remainder = minutes % 15;
+        let roundedMinutes = minutes - remainder;
+        if (remainder > 7.5) {
+          roundedMinutes += 15;
+        }
+        minutes = roundedMinutes;
+      }
+      if (minutes === 60) {
+        hours += 1;
+        minutes = 0;
+      }
+
+      const hoursDate = {
+        userEmail,
+        date,
+        description,
+        hours,
+        minutes,
+        projectName,
+      };
+      req.hours = hoursDate;
       next();
-      // const { data: createdHours } = await timelyService.getCreatedHours(path, accountId);
-      //   console.log("createdHours", createdHours);
-
-      //   if (!createdHours) {
-      //     throw new Error("Created hours not found");
-      //   }
-      //   const userEmail = createdHours.user.email;
-      //   const date = createdHours.day;
-      //   const description = createdHours.note;
-      //   let hours = createdHours.duration.hours;
-      //   let minutes = createdHours.duration.minutes;
-      //   const projectName = createdHours.project.name;
-
-      //   if (minutes < 20) {
-      //     minutes = 20;
-      //   } else if (minutes > 30) {
-      //     const remainder = minutes % 15;
-      //     let roundedMinutes = minutes - remainder;
-      //     if (remainder > 7.5) {
-      //       roundedMinutes += 15;
-      //     }
-      //     minutes = roundedMinutes;
-      //   }
-      //   if (minutes === 60) {
-      //     hours += 1;
-      //     minutes = 0;
-      //   }
-
-      //   const hoursDate = {
-      //     userEmail,
-      //     date,
-      //     description,
-      //     hours,
-      //     minutes,
-      //     projectName,
-      //   };
-      //   req.hours = hoursDate;
-      //   next();
     } catch (e) {
       next(e);
     }
