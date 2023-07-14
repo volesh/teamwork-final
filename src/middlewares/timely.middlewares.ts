@@ -72,10 +72,6 @@ export const timelyMiddlewares = {
         "Array",
         data.map((elem) => elem.id)
       );
-
-      console.log("getAccount0", data[0].id);
-      console.log("getAccount1", data[1].id);
-      console.log("getAccount2", data[2].id);
       req.accountId = data[0].id;
       next();
     } catch (e) {
@@ -90,10 +86,9 @@ export const timelyMiddlewares = {
         throw new Error("Missing accountId");
       }
       const path = req.body.payload.entity_path;
-      console.log(path);
 
       const { data: createdHours } = await timelyService.getCreatedHours(path, accountId);
-      console.log(createdHours);
+      console.log("createdHours", createdHours);
 
       if (!createdHours) {
         throw new Error("Created hours not found");
