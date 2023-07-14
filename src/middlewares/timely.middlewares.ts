@@ -73,6 +73,9 @@ export const timelyMiddlewares = {
         data.map((elem) => elem.id)
       );
 
+      console.log("getAccount0", data[0].id);
+      console.log("getAccount1", data[1].id);
+      console.log("getAccount2", data[2].id);
       req.accountId = data[0].id;
       next();
     } catch (e) {
